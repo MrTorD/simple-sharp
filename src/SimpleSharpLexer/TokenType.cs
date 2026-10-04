@@ -56,6 +56,11 @@ public enum TokenType
     Struct,
 
     /// <summary>
+    /// Ключевое слово void
+    /// </summary>
+    Void,
+
+    /// <summary>
     /// Ключевове слово if
     /// </summary>
     If,

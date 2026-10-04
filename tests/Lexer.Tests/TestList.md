@@ -1,7 +1,7 @@
 # Список тестов для Lexer
 
 ## Идентификаторы и ключевые слова
-- [x] Ключевые слова типов: `int bool string char uint struct`
+- [x] Ключевые слова типов: `int bool string char uint struct void`
 - [x] Ключевые слова значений логического типа: `true false`
 - [x] Ключевые слова условий, циклов, возврата: `if else while break continue return`
 - [x] Разбор идентификаторов: `hello h42 ab_44`

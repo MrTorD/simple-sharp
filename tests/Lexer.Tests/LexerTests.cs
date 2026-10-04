@@ -27,7 +27,7 @@ public class LexerTests
         return new TheoryData<string, List<Token>>
         {
             {
-                " bool string char int uint num struct ", [
+                " bool string char int uint num struct void ", [
                     new Token(TokenType.Bool) { Line = 1, Column = 6 },
                     new Token(TokenType.String) { Line = 1, Column = 13 },
                     new Token(TokenType.Char) { Line = 1, Column = 18 },
@@ -35,6 +35,7 @@ public class LexerTests
                     new Token(TokenType.Uint) { Line = 1, Column = 27 },
                     new Token(TokenType.Num) { Line = 1, Column = 31 },
                     new Token(TokenType.Struct) { Line = 1, Column = 38 },
+                    new Token(TokenType.Void) { Line = 1, Column = 43 },
                 ]
             },
             {

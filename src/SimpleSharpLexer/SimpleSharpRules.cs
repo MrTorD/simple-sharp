@@ -59,6 +59,7 @@ internal static class SimpleSharpRules
         ["break"] = TokenType.Break,
         ["continue"] = TokenType.Continue,
         ["struct"] = TokenType.Struct,
+        ["void"] = TokenType.Void,
         ["true"] = TokenType.True,
         ["false"] = TokenType.False,
     };
