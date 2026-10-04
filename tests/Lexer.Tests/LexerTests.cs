@@ -136,6 +136,11 @@ public class LexerTests
                         },
                 ]
             },
+            {
+                " 'я' ", [
+                    new Token(TokenType.CharLiteral, "я") { Line = 1, Column = 5, },
+                ]
+            },
         };
     }
 
@@ -148,6 +153,11 @@ public class LexerTests
                     new Token(TokenType.StringLiteral) { Line = 1, Column = 5 },
                     new Token(TokenType.StringLiteral, "a") { Line = 1, Column = 12 },
                     new Token(TokenType.StringLiteral, "Hello, World") { Line = 1, Column = 29 },
+                ]
+            },
+            {
+                """ "Привет, мир!" """, [
+                    new Token(TokenType.StringLiteral, "Привет, мир!") { Line = 1, Column = 15 },
                 ]
             },
             {
