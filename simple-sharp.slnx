@@ -1,6 +1,13 @@
 <Solution>
+  <Folder Name="/docs/">
+    <File Path="docs/specification.md" />
+  </Folder>
   <Folder Name="/src/">
+    <Project Path="src/Lexer.Abstractions/Lexer.Abstractions.csproj" />
+    <Project Path="src/Lexer/Lexer.csproj" />
+    <Project Path="src/SimpleSharpLexer/SimpleSharpLexer.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Lexer.Tests/Lexer.Tests.csproj" />
   </Folder>
 </Solution>
