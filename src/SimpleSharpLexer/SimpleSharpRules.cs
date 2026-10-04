@@ -80,6 +80,7 @@ internal static class SimpleSharpRules
                 [LexerState.CharEscapeCharacter] = GetCharEscapeCharacterRules(),
                 [LexerState.IntLiteral] = GetIntLiteralRules(),
                 [LexerState.SlashReceived] = GetSlashRules(),
+                [LexerState.CarriageReturnReceived] = GetCarriageReturnRules(),
                 [LexerState.Comment] = GetCommentRules(),
                 [LexerState.Divider] = GetDividerRules(),
                 [LexerState.Or] = GetLogicalOperatorRules('|', TokenType.Or),
@@ -244,6 +245,13 @@ internal static class SimpleSharpRules
         },
         new()
         {
+            Condition = c => c == '\r',
+            Transition = new(
+                LexerState.CarriageReturnReceived,
+                transitionRules.Invoke),
+        },
+        new()
+        {
             Condition = c => c == '\n',
             Transition = new(
                 LexerState.Main,
@@ -255,7 +263,7 @@ internal static class SimpleSharpRules
         },
         new()
         {
-            Condition = _ => true,
+            Condition = IsWhiteSpace,
             Transition = new(
                 LexerState.Main,
                 builder =>
@@ -293,7 +301,7 @@ internal static class SimpleSharpRules
         },
         new()
         {
-            Condition = c => c != '\'' && c != '\n',
+            Condition = c => c != '\'' && c != '\n' && c != '\r',
             Transition = new(
                 LexerState.CharReceived,
                 builder => builder
@@ -349,7 +357,7 @@ internal static class SimpleSharpRules
         },
         new()
         {
-            Condition = c => c != '\n',
+            Condition = c => c != '\n' && c != '\r',
             Transition = new(
                 LexerState.StringLiteral,
                 builder => builder
@@ -393,6 +401,19 @@ internal static class SimpleSharpRules
                 Condition = c => c == '/',
                 Transition = new(
                     LexerState.Comment,
+                    builder => builder
+                        .AdvanceColumn()),
+            })
+            .ToList();
+
+    private static List<TransitionRule<LexerState, TokenType>> GetCarriageReturnRules() =>
+        GetMainStateRules(b => b
+                .NewLine())
+            .Prepend(new()
+            {
+                Condition = c => c == '\n',
+                Transition = new(
+                    LexerState.Main,
                     builder => builder
                         .AdvanceColumn()),
             })
@@ -449,4 +470,9 @@ internal static class SimpleSharpRules
                     .PopToken(tokenType)),
         },
     ];
+
+    private static bool IsWhiteSpace(char c)
+    {
+        return c is ' ' or '\n' or '\r' or '\t';
+    }
 }

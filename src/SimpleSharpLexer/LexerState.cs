@@ -46,6 +46,12 @@ public enum LexerState
     StringEscapeCharacter,
 
     /// <summary>
+    /// Состояние полученнго символа '\r'. Если следующий символ '\n',
+    /// то переход не вызовет изменение счётчика строк
+    /// </summary>
+    CarriageReturnReceived,
+
+    /// <summary>
     /// Состояние полученнго символа `/`. Возможен переход к комментарию или к оператору деления
     /// </summary>
     SlashReceived,

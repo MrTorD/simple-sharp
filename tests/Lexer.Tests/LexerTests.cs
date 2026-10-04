@@ -72,6 +72,11 @@ public class LexerTests
                     new Token(TokenType.Identifier, "_private_Field") { Line = 1, Column = 15 },
                 ]
             },
+            {
+                "ЕСЛИ 5 > 4 ", [
+                    new Token(TokenType.Error, "Встретился неожиданный символ 'Е'") { Line = 1, Column = 1 },
+                ]
+            },
         };
     }
 
@@ -177,7 +182,7 @@ public class LexerTests
             },
             {
                 """ "\p"  """, [
-                    new Token(TokenType.Error, $"Неизвестная ESCAPE-последовательность для 'p'")
+                    new Token(TokenType.Error, "Неизвестная ESCAPE-последовательность для 'p'")
                         {
                             Line = 1, Column = 4,
                         },
@@ -190,7 +195,14 @@ public class LexerTests
     {
         return new TheoryData<string, List<Token>>
         {
-            { "  \n     \r    \t\t\t   ", [] }, { " //Hello, World   ", [] },
+            {
+                "  \n     \r    \t\t\t   ", [
+                ]
+            },
+            {
+                " //Hello, World   ", [
+                ]
+            },
         };
     }
 
