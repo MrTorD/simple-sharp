@@ -3,11 +3,15 @@
     <File Path="docs/specification.md" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/Interpreter/Interpreter.csproj" />
     <Project Path="src/Lexer.Abstractions/Lexer.Abstractions.csproj" />
     <Project Path="src/Lexer/Lexer.csproj" />
+    <Project Path="src/Parser/Parser.csproj" />
     <Project Path="src/SimpleSharpLexer/SimpleSharpLexer.csproj" />
+    <Project Path="src/VirtualMachine/VirtualMachine.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Interpreter.Tests/Interpreter.Tests.csproj" />
     <Project Path="tests/Lexer.Tests/Lexer.Tests.csproj" />
   </Folder>
 </Solution>
