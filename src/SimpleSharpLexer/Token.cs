@@ -3,7 +3,7 @@ namespace SimpleSharpLexer;
 /// <summary>
 /// Токен, представляющий одну лексему языка SimpleSharp
 /// </summary>
-public struct Token
+public record struct Token
 {
     public Token(TokenType type, string? value = null)
     {

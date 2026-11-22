@@ -39,6 +39,8 @@ internal static class SimpleSharpRules
         ["-"] = TokenType.Minus,
         ["*"] = TokenType.Multiply,
         ["/"] = TokenType.Divide,
+        ["^"] = TokenType.Caret,
+        ["%"] = TokenType.Percent,
     };
 
     /// <summary>
@@ -50,8 +52,6 @@ internal static class SimpleSharpRules
         ["else"] = TokenType.Else,
         ["while"] = TokenType.While,
         ["int"] = TokenType.Int,
-        ["num"] = TokenType.Num,
-        ["uint"] = TokenType.Uint,
         ["bool"] = TokenType.Bool,
         ["char"] = TokenType.Char,
         ["string"] = TokenType.String,
@@ -278,15 +278,16 @@ internal static class SimpleSharpRules
     {
         return GetMainStateRules(b => b
                 .PopToken(TokenType.IntLiteral))
-            .Prepend(new()
-            {
-                Condition = char.IsAsciiDigit,
-                Transition = new(
-                    LexerState.IntLiteral,
-                    builder => builder
-                        .AppendCurrentChar()
-                        .AdvanceColumn()),
-            })
+            .Prepend(
+                new()
+                {
+                    Condition = char.IsAsciiDigit,
+                    Transition = new(
+                        LexerState.IntLiteral,
+                        builder => builder
+                            .AppendCurrentChar()
+                            .AdvanceColumn()),
+                })
             .ToList();
     }
 
@@ -382,41 +383,44 @@ internal static class SimpleSharpRules
     private static List<TransitionRule<LexerState, TokenType>> GetIdentifierOrKeywordRules() =>
         GetMainStateRules(b => b
                 .PopDictionaryToken(Keywords, TokenType.Identifier))
-            .Prepend(new()
-            {
-                Condition = c => c == '_' || char.IsAsciiLetter(c) || char.IsAsciiDigit(c),
-                Transition = new(
-                    LexerState.IdentifierOrKeyword,
-                    builder => builder
-                        .AppendCurrentChar()
-                        .AdvanceColumn()),
-            })
+            .Prepend(
+                new()
+                {
+                    Condition = c => c == '_' || char.IsAsciiLetter(c) || char.IsAsciiDigit(c),
+                    Transition = new(
+                        LexerState.IdentifierOrKeyword,
+                        builder => builder
+                            .AppendCurrentChar()
+                            .AdvanceColumn()),
+                })
             .ToList();
 
     private static List<TransitionRule<LexerState, TokenType>> GetSlashRules() =>
         GetMainStateRules(b => b
                 .PopToken(TokenType.Divide))
-            .Prepend(new()
-            {
-                Condition = c => c == '/',
-                Transition = new(
-                    LexerState.Comment,
-                    builder => builder
-                        .AdvanceColumn()),
-            })
+            .Prepend(
+                new()
+                {
+                    Condition = c => c == '/',
+                    Transition = new(
+                        LexerState.Comment,
+                        builder => builder
+                            .AdvanceColumn()),
+                })
             .ToList();
 
     private static List<TransitionRule<LexerState, TokenType>> GetCarriageReturnRules() =>
         GetMainStateRules(b => b
                 .NewLine())
-            .Prepend(new()
-            {
-                Condition = c => c == '\n',
-                Transition = new(
-                    LexerState.Main,
-                    builder => builder
-                        .AdvanceColumn()),
-            })
+            .Prepend(
+                new()
+                {
+                    Condition = c => c == '\n',
+                    Transition = new(
+                        LexerState.Main,
+                        builder => builder
+                            .AdvanceColumn()),
+                })
             .ToList();
 
     private static List<TransitionRule<LexerState, TokenType>> GetCommentRules() =>
@@ -443,15 +447,16 @@ internal static class SimpleSharpRules
         TokenType successToken,
         TokenType failureToken) =>
         GetMainStateRules(b => b.PopToken(failureToken))
-            .Prepend(new()
-            {
-                Condition = c => c == '=',
-                Transition = new(
-                    LexerState.Main,
-                    builder => builder
-                        .AdvanceColumn()
-                        .PopToken(successToken)),
-            })
+            .Prepend(
+                new()
+                {
+                    Condition = c => c == '=',
+                    Transition = new(
+                        LexerState.Main,
+                        builder => builder
+                            .AdvanceColumn()
+                            .PopToken(successToken)),
+                })
             .ToList();
 
     private static List<TransitionRule<LexerState, TokenType>> GetDividerRules() =>

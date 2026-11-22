@@ -27,15 +27,13 @@ public class LexerTests
         return new TheoryData<string, List<Token>>
         {
             {
-                " bool string char int uint num struct void ", [
+                " bool string char int struct void ", [
                     new Token(TokenType.Bool) { Line = 1, Column = 6 },
                     new Token(TokenType.String) { Line = 1, Column = 13 },
                     new Token(TokenType.Char) { Line = 1, Column = 18 },
                     new Token(TokenType.Int) { Line = 1, Column = 22 },
-                    new Token(TokenType.Uint) { Line = 1, Column = 27 },
-                    new Token(TokenType.Num) { Line = 1, Column = 31 },
-                    new Token(TokenType.Struct) { Line = 1, Column = 38 },
-                    new Token(TokenType.Void) { Line = 1, Column = 43 },
+                    new Token(TokenType.Struct) { Line = 1, Column = 29 },
+                    new Token(TokenType.Void) { Line = 1, Column = 34 },
                 ]
             },
             {
@@ -182,10 +180,9 @@ public class LexerTests
             },
             {
                 """ "\p"  """, [
-                    new Token(TokenType.Error, "Неизвестная ESCAPE-последовательность для 'p'")
-                        {
-                            Line = 1, Column = 4,
-                        },
+                    new Token(
+                        TokenType.Error,
+                        "Неизвестная ESCAPE-последовательность для 'p'") { Line = 1, Column = 4, },
                 ]
             },
         };
@@ -211,7 +208,7 @@ public class LexerTests
         return new TheoryData<string, List<Token>>
         {
             {
-                " x + y - a * b / 4 ", [
+                " x + y - a * b / 4 ^ 2 % 1 ", [
                     new Token(TokenType.Identifier, "x") { Line = 1, Column = 3 },
                     new Token(TokenType.Plus) { Line = 1, Column = 5 },
                     new Token(TokenType.Identifier, "y") { Line = 1, Column = 7 },
@@ -221,6 +218,10 @@ public class LexerTests
                     new Token(TokenType.Identifier, "b") { Line = 1, Column = 15 },
                     new Token(TokenType.Divide) { Line = 1, Column = 17 },
                     new Token(TokenType.IntLiteral, "4") { Line = 1, Column = 19 },
+                    new Token(TokenType.Caret) { Line = 1, Column = 21 },
+                    new Token(TokenType.IntLiteral, "2") { Line = 1, Column = 23 },
+                    new Token(TokenType.Percent) { Line = 1, Column = 25 },
+                    new Token(TokenType.IntLiteral, "1") { Line = 1, Column = 27 },
                 ]
             },
             {

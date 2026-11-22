@@ -11,6 +11,7 @@ public class StreamPerSymbolReader : IFileReader, IDisposable
     private readonly char[] _buffer;
     private int _read;
     private int _position;
+    private bool _isLastCharGiven;
 
     public StreamPerSymbolReader(Stream stream, Encoding encoding, int bufferSize)
     {
@@ -21,6 +22,7 @@ public class StreamPerSymbolReader : IFileReader, IDisposable
             bufferSize: bufferSize,
             leaveOpen: true);
         _buffer = new char[bufferSize];
+        _isLastCharGiven = false;
     }
 
     public bool TryNext([NotNullWhen(true)] out char? c)
@@ -33,10 +35,17 @@ public class StreamPerSymbolReader : IFileReader, IDisposable
 
         _read = _reader.Read(_buffer, 0, _buffer.Length);
 
-        if (_read == 0)
+        if (_isLastCharGiven)
         {
             c = null;
             return false;
+        }
+
+        if (_read == 0)
+        {
+            _isLastCharGiven = true;
+            c = '\n';
+            return true;
         }
 
         _position = 0;

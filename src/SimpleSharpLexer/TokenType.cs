@@ -11,7 +11,7 @@ public enum TokenType
     Identifier,
 
     /// <summary>
-    /// Целочисленный литерал
+    /// Ключевое слово int
     /// </summary>
     Int,
 
@@ -29,16 +29,6 @@ public enum TokenType
     /// Ключевое слово char
     /// </summary>
     Char,
-
-    /// <summary>
-    /// Ключевое слово uint
-    /// </summary>
-    Uint,
-
-    /// <summary>
-    /// Ключевое слово num
-    /// </summary>
-    Num,
 
     /// <summary>
     /// Ключевое слово true
@@ -124,6 +114,16 @@ public enum TokenType
     /// Оператор деления "/"
     /// </summary>
     Divide,
+
+    /// <summary>
+    /// Оператор остатка от деления "%"
+    /// </summary>
+    Percent,
+
+    /// <summary>
+    /// Оператор возведения в степень "^"
+    /// </summary>
+    Caret,
 
     /// <summary>
     /// Логический оператор "не"
