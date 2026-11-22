@@ -42,9 +42,7 @@ SimpleSharp - строго типизированный императивный
 #### Целочисленный литерал
 
 - Состоит из одной или более десятичной цифры: `0123456789`
-
 - Разрешены литералы начинающиеся с 0, ведущие 0 не учитываются:  `0012` = `12`
-
 - Унарный минус не является частью литерала, диапазон допустимых значений: `0 - 2147483647`
 
 #### Символьные литералы
@@ -115,3 +113,33 @@ SimpleSharp - строго типизированный императивный
 - Возврат каретки `\r`
 - Пробел ` `
 - Табуляция `\t`
+
+## Синтаксис
+
+### Синтаксис в нотации EBNF
+
+```ebnf
+program = "void", "main", "(", ")", block ;
+block = "{", { statement },  "}" ;
+statement = block | empty_statement | function_call ;
+
+function_call = write_call ;
+write_call = "Write", "(", expression, ")", ";" ;
+
+expression = additive_expression ;
+additive_expression = multiplicative_expression, { ( "+" | "-" ), multiplicative_expression } ;
+multiplicative_expression = exponentiation_expression, { ( "*" | "/" | "%" ), exponentiation_expression } ;
+exponentiation_expression = unary_expression, { "^", unary_expression } ;
+unary_expression = "-", unary_expression | primary_expression ;
+primary_expression = int_literal | "(", expression, ")" ;
+```
+
+### Приоритет и ассоциативность операций
+
+| Оператор      | Приоритет     | Ассоциативность |
+|---------------|---------------|-----------------|
+| `()`          | 1 (Наивысший) | -               |
+| `-`           | 2             | Правая          |
+| `^`           | 3             | Левая           |
+| `*`, `/`, `%` | 4             | Левая           |
+| `+`, `-`      | 5 (Наинизший) | Левая           |
