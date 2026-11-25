@@ -45,10 +45,11 @@ public class InterpreterTests
         { "void main() { }", "" },
         { "void main() { ; {;{;;}} }", "" },
         { "void main() { Write(5); }", "5" },
+        { "void main() { Write(1); Write(2); }", "12" },
         { "void main() { Write(3 + -2); }", "1" },
         { "void main() { Write(1 + 4 * 2 ^ 3); }", "33" },
         { "void main() { Write( (8 / 2 / 2) ^ 2 ^ 2); }", "16" },
-        { "void main() { Write( (11 + -(4 % 3)) / 3 ); }", "3" },
+        { "void main() { Write( (11 - -(4 % 3)) / 3 ); }", "4" },
     };
 
     public static TheoryData<string, string> IllFormedPrograms() => new()
@@ -58,7 +59,8 @@ public class InterpreterTests
         { "void main() { Write(5) }", "Ожидалась лексема Semicolon, встречена CloseBrace" },
         { "void main() { Write(5);", "Ожидалась лексема CloseBrace" },
         {
-            "void main(){ 5 + 5; }", "Ожидалась лексема Identifier со значением Write, встречена IntLiteral со значением 5"
+            "void main() { 5 + 5; }", "Ожидалась лексема Identifier со значением Write, " +
+                                      "встречена IntLiteral со значением 5"
         },
         { "void main() { Write (1 ++ 1) }", "Ожидался IntLiteral или OpenParenthesis, встречен Plus" },
         { "void main() { Write (2147483648) }", "Целочисленный литерал со значением 2147483648 слишком большой" },
@@ -68,6 +70,8 @@ public class InterpreterTests
     {
         { "void main() { Write(2147483647 + 1); }", "Переполнение целого числа" },
         { "void main() { Write(-2147483647 - 2); }", "Переполнение целого числа" },
+        { "void main() { Write(1000000 * 3000); }", "Переполнение целого числа" },
+        { "void main() { Write(10 ^ 10); }", "Переполнение целого числа" },
         { "void main() { Write(5 / 0); }", "Деление на 0" },
     };
 }

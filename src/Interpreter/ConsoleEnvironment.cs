@@ -11,6 +11,6 @@ public class ConsoleEnvironment : IEnvironment
 
     public void Write(int value)
     {
-        Console.WriteLine(value);
+        Console.Write(value);
     }
 }

@@ -66,7 +66,7 @@ public class VirtualMachine
                 _values.Push(-_values.Pop());
                 break;
             case OperationType.Exponent:
-                ExecuteBinaryOp((left, right) => (int)Math.Pow(left, right));
+                ExecuteBinaryOp((left, right) => checked((int)Math.Pow(left, right)));
                 break;
             case OperationType.DivWithRemainder:
                 ExecuteBinaryOp((left, right) => left % right);
