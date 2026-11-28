@@ -36,6 +36,10 @@ public class Parser
         Match(TokenType.OpenParenthesis);
         Match(TokenType.CloseParenthesis);
         ParseBlock();
+        if (_tokens.Count != 0)
+        {
+            throw new SyntaxException("Лексемы после блока main недопустимы");
+        }
     }
 
     /// <summary>

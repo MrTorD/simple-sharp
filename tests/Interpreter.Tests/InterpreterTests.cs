@@ -61,6 +61,8 @@ public class InterpreterTests
                                       "встречена IntLiteral со значением 5"
         },
         { "void main() { Write (1 ++ 1) }", "Ожидался IntLiteral или OpenParenthesis, встречен Plus" },
+        { "void main() { } Write(5);", "Лексемы после блока main недопустимы" },
+        { "void main() { } @", "Лексемы после блока main недопустимы" },
     };
 
     public static TheoryData<string, string> ProgramsWithRuntimeExceptions() => new()
