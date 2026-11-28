@@ -39,11 +39,6 @@ public class VirtualMachine
     {
         switch (instruction.OperationType)
         {
-            case OperationType.Halt:
-                return;
-            case OperationType.Pop:
-                _values.Pop();
-                break;
             case OperationType.Push:
                 _values.Push(
                     instruction.Operand ??

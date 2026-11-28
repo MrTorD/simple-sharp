@@ -7,5 +7,6 @@ public class NewLineCommand : ILexerCommand
     public void Execute(ILexerCommandContext context)
     {
         context.Line++;
+        context.Column = 1;
     }
 }

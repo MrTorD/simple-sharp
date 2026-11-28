@@ -6,11 +6,6 @@ public class InstructionsBuilder
 {
     private readonly List<Instruction> _instructions = [];
 
-    public void Halt()
-    {
-        _instructions.Add(new Instruction(OperationType.Halt));
-    }
-
     public void Push(int value)
     {
         _instructions.Add(new Instruction(OperationType.Push, value));

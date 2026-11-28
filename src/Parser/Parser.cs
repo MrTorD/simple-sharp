@@ -69,12 +69,20 @@ public class Parser
                 ParseBlock();
                 break;
             case TokenType.Semicolon:
-                _tokens.Dequeue();
+                ParseEmptyStatement();
                 break;
             default:
                 ParseFunctionCall();
                 break;
         }
+    }
+
+    /// <summary>
+    /// empty_statement = ";" ;
+    /// </summary>
+    private void ParseEmptyStatement()
+    {
+        Match(TokenType.Semicolon);
     }
 
     /// <summary>

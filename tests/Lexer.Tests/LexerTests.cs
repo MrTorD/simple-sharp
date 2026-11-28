@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using SimpleSharpLexer;
+﻿using SimpleSharpLexer;
 
 namespace Lexer.Tests;
 
@@ -16,8 +14,7 @@ public class LexerTests
     public void TokenizeLexemes(string code, List<Token> expected)
     {
         SimpleSharpLexer.SimpleSharpLexer lexer = new();
-        Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(code));
-        List<Token> tokens = lexer.ParseSourceCode(stream).ToList();
+        List<Token> tokens = lexer.ParseSourceCode(code).ToList();
 
         Assert.Equal(expected, tokens);
     }
@@ -39,12 +36,14 @@ public class LexerTests
             {
                 "true false ", [
                     new Token(TokenType.True) { Line = 1, Column = 5 },
+
                     new Token(TokenType.False) { Line = 1, Column = 11 },
                 ]
             },
             {
                 "if else while break continue return ", [
                     new Token(TokenType.If) { Line = 1, Column = 3 },
+
                     new Token(TokenType.Else) { Line = 1, Column = 8 },
                     new Token(TokenType.While) { Line = 1, Column = 14 },
                     new Token(TokenType.Break) { Line = 1, Column = 20 },
@@ -54,25 +53,33 @@ public class LexerTests
             },
             {
                 "hello h42 ab_44 ", [
-                    new Token(TokenType.Identifier, "hello") { Line = 1, Column = 6 },
+                    new Token(
+                        TokenType.Identifier,
+                        "hello") { Line = 1, Column = 6 },
                     new Token(TokenType.Identifier, "h42") { Line = 1, Column = 10 },
                     new Token(TokenType.Identifier, "ab_44") { Line = 1, Column = 16 },
                 ]
             },
             {
                 "IF stRing ", [
-                    new Token(TokenType.Identifier, "IF") { Line = 1, Column = 3 },
+                    new Token(
+                        TokenType.Identifier,
+                        "IF") { Line = 1, Column = 3 },
                     new Token(TokenType.Identifier, "stRing") { Line = 1, Column = 10 },
                 ]
             },
             {
                 "_private_Field ", [
-                    new Token(TokenType.Identifier, "_private_Field") { Line = 1, Column = 15 },
+                    new Token(
+                        TokenType.Identifier,
+                        "_private_Field") { Line = 1, Column = 15 },
                 ]
             },
             {
                 "ЕСЛИ 5 > 4 ", [
-                    new Token(TokenType.Error, "Встретился неожиданный символ 'Е'") { Line = 1, Column = 1 },
+                    new Token(
+                        TokenType.Error,
+                        "Встретился неожиданный символ 'Е'") { Line = 1, Column = 1 },
                 ]
             },
         };
@@ -95,6 +102,12 @@ public class LexerTests
                     new Token(TokenType.IntLiteral, "44") { Line = 1, Column = 5 },
                     new Token(TokenType.Minus) { Line = 1, Column = 7 },
                     new Token(TokenType.IntLiteral, "77") { Line = 1, Column = 9 },
+                ]
+            },
+            {
+                "2147483647 2147483648", [
+                    new Token(TokenType.IntLiteral, "2147483647") { Line = 1, Column = 11 },
+                    new Token(TokenType.Error, "2147483648") { Line = 1, Column = 22 },
                 ]
             },
         };
@@ -198,6 +211,14 @@ public class LexerTests
             },
             {
                 " //Hello, World   ", [
+                ]
+            },
+            {
+                "A\nBB\r\n\rCCC\n\rDDDD", [
+                    new Token(TokenType.Identifier, "A") { Line = 1, Column = 2 },
+                    new Token(TokenType.Identifier, "BB") { Line = 2, Column = 3 },
+                    new Token(TokenType.Identifier, "CCC") { Line = 4, Column = 4 },
+                    new Token(TokenType.Identifier, "DDDD") { Line = 6, Column = 5 },
                 ]
             },
         };

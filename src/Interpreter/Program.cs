@@ -11,7 +11,8 @@ try
     ConsoleEnvironment environment = new();
     Interpreter.Interpreter interpreter = new(environment);
 
-    interpreter.Execute(File.OpenRead(args[0]));
+    string code = File.ReadAllText(args[0]);
+    interpreter.Execute(code);
 
     return 0;
 }

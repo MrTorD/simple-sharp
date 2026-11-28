@@ -9,8 +9,7 @@ public static class LexerCommandsExtensions
         this LexerCommandBuilder<TTokenType> builder)
         where TTokenType : struct, Enum
     {
-        builder.AddCommand(new AppendCurrentCharCommand());
-        return builder;
+        return builder.AddCommand(new AppendCurrentCharCommand());
     }
 
     public static LexerCommandBuilder<TTokenType> PopToken<TTokenType>(
@@ -18,8 +17,7 @@ public static class LexerCommandsExtensions
         TTokenType tokenType)
         where TTokenType : struct, Enum
     {
-        builder.AddCommand(new PopTokenCommand<TTokenType>(tokenType));
-        return builder;
+        return builder.AddCommand(new PopTokenCommand<TTokenType>(tokenType));
     }
 
     public static LexerCommandBuilder<TTokenType> AdvanceColumn<TTokenType>(
@@ -27,16 +25,14 @@ public static class LexerCommandsExtensions
         int column = 1)
         where TTokenType : struct, Enum
     {
-        builder.AddCommand(new AdvanceColumnCommand(column));
-        return builder;
+        return builder.AddCommand(new AdvanceColumnCommand(column));
     }
 
     public static LexerCommandBuilder<TTokenType> NewLine<TTokenType>(
         this LexerCommandBuilder<TTokenType> builder)
         where TTokenType : struct, Enum
     {
-        builder.AddCommand(new NewLineCommand());
-        return builder;
+        return builder.AddCommand(new NewLineCommand());
     }
 
     public static LexerCommandBuilder<TTokenType> AppendEscapeChar<TTokenType>(
@@ -44,8 +40,7 @@ public static class LexerCommandsExtensions
         Dictionary<char, char> escapeChars)
         where TTokenType : struct, Enum
     {
-        builder.AddCommand(new AppendEscapeChar(escapeChars));
-        return builder;
+        return builder.AddCommand(new AppendEscapeChar(escapeChars));
     }
 
     public static LexerCommandBuilder<TTokenType> PopDictionaryToken<TTokenType>(
@@ -54,7 +49,16 @@ public static class LexerCommandsExtensions
         TTokenType failureToken)
         where TTokenType : struct, Enum
     {
-        builder.AddCommand(new PopDictionaryTokenCommand<TTokenType>(tokenTypes, failureToken));
-        return builder;
+        return builder.AddCommand(new PopDictionaryTokenCommand<TTokenType>(tokenTypes, failureToken));
+    }
+
+    public static LexerCommandBuilder<TTokenType> PopValidatedToken<TTokenType>(
+        this LexerCommandBuilder<TTokenType> builder,
+        Func<string, bool> validation,
+        TTokenType successToken,
+        TTokenType failureToken)
+        where TTokenType : struct, Enum
+    {
+        return builder.AddCommand(new PopValidatedTokenCommand<TTokenType>(validation, successToken, failureToken));
     }
 }

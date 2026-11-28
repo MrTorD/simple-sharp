@@ -277,7 +277,7 @@ internal static class SimpleSharpRules
     private static List<TransitionRule<LexerState, TokenType>> GetIntLiteralRules()
     {
         return GetMainStateRules(b => b
-                .PopToken(TokenType.IntLiteral))
+                .PopValidatedToken(value => int.TryParse(value, out int _), TokenType.IntLiteral, TokenType.Error))
             .Prepend(
                 new()
                 {
@@ -419,7 +419,7 @@ internal static class SimpleSharpRules
                     Transition = new(
                         LexerState.Main,
                         builder => builder
-                            .AdvanceColumn()),
+                            .NewLine()),
                 })
             .ToList();
 

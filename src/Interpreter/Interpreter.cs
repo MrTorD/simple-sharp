@@ -13,7 +13,7 @@ public class Interpreter
         _environment = environment;
     }
 
-    public void Execute(Stream sourceCode)
+    public void Execute(string sourceCode)
     {
         SimpleSharpLexer.SimpleSharpLexer lexer = new();
         IReadOnlyList<Token> tokens = lexer.ParseSourceCode(sourceCode);

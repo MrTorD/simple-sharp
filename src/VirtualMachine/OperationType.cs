@@ -3,19 +3,9 @@ namespace VirtualMachine;
 public enum OperationType
 {
     /// <summary>
-    /// Остановка выполнения программы
-    /// </summary>
-    Halt,
-
-    /// <summary>
     /// Добавление значение на вершину стека
     /// </summary>
     Push,
-
-    /// <summary>
-    /// Снимает значение с вершины стека
-    /// </summary>
-    Pop,
 
     /// <summary>
     /// Снимает два значения с вершины стека, помещает их сумму на вершину стека

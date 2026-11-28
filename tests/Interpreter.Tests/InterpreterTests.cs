@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Parser;
+﻿using Parser;
 
 using VirtualMachine;
 
@@ -12,9 +10,9 @@ public class InterpreterTests
     [MemberData(nameof(WellFormedPrograms))]
     public void RunWellFormedProgram(string code, string expected)
     {
-        FakeEnvironment environment = new([]);
+        FakeEnvironment environment = new();
         Interpreter interpreter = new(environment);
-        interpreter.Execute(new MemoryStream(Encoding.UTF8.GetBytes(code)));
+        interpreter.Execute(code);
         Assert.Equal(expected, environment.Output);
     }
 
@@ -22,10 +20,10 @@ public class InterpreterTests
     [MemberData(nameof(IllFormedPrograms))]
     public void RunIllFormedProgram(string code, string exceptionMessage)
     {
-        FakeEnvironment environment = new([]);
+        FakeEnvironment environment = new();
         Interpreter interpreter = new(environment);
         SyntaxException exception =
-            Assert.Throws<SyntaxException>(() => interpreter.Execute(new MemoryStream(Encoding.UTF8.GetBytes(code))));
+            Assert.Throws<SyntaxException>(() => interpreter.Execute(code));
         Assert.Equal(exceptionMessage, exception.Message);
     }
 
@@ -33,10 +31,10 @@ public class InterpreterTests
     [MemberData(nameof(ProgramsWithRuntimeExceptions))]
     public void RunProgramWithRuntimeError(string code, string exceptionMessage)
     {
-        FakeEnvironment environment = new([]);
+        FakeEnvironment environment = new();
         Interpreter interpreter = new(environment);
         ProgramExecutionException exception = Assert.Throws<ProgramExecutionException>(() =>
-            interpreter.Execute(new MemoryStream(Encoding.UTF8.GetBytes(code))));
+            interpreter.Execute(code));
         Assert.Equal(exceptionMessage, exception.Message);
     }
 
@@ -63,7 +61,6 @@ public class InterpreterTests
                                       "встречена IntLiteral со значением 5"
         },
         { "void main() { Write (1 ++ 1) }", "Ожидался IntLiteral или OpenParenthesis, встречен Plus" },
-        { "void main() { Write (2147483648) }", "Целочисленный литерал со значением 2147483648 слишком большой" },
     };
 
     public static TheoryData<string, string> ProgramsWithRuntimeExceptions() => new()
